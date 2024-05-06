@@ -1,0 +1,45 @@
+{
+	"name": "adls_gen2_raw_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_ls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file_name": {
+				"type": "string"
+			},
+			"folder_name": {
+				"type": "String"
+			},
+			"month": {
+				"type": "String"
+			},
+			"year": {
+				"type": "String"
+			},
+			"day": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().folder_name,'/',dataset().year,'/',dataset().month,'/',dataset().day,'/',dataset().file_name)",
+					"type": "Expression"
+				},
+				"folderPath": "Rebrickable/LEGO",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

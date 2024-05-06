@@ -1,0 +1,9 @@
+{
+	"name": "RebrickableAdfDev",
+	"location": "eastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "04541e1f-5393-4cf7-b3cf-dc3287122cb8",
+		"tenantId": "dcde8764-cc89-4aa9-8e50-550fe4014068"
+	}
+}
