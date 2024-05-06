@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "Rebrickable_ingestion_pipeline",
 	"properties": {
 		"activities": [
 			{
