@@ -1,10 +1,6 @@
 {
 	"name": "http_ds",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "HttpServer1",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"relativeUrl": {
 				"type": "String"
