@@ -5,8 +5,22 @@
 			"referenceName": "RestService_ls",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"userToken": {
+				"type": "String"
+			},
+			"name": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@concat('/api/v3/users/',dataset().userToken,'/',dataset().name)",
+				"type": "Expression"
+			}
+		},
 		"schema": []
 	}
 }
