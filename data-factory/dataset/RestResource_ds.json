@@ -8,15 +8,15 @@
 		"parameters": {
 			"userToken": {
 				"type": "String"
-			},
-			"name": {
-				"type": "String"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
-			"relativeUrl": "/api/v3/users/{user_token}/allparts/"
+			"relativeUrl": {
+				"value": "@concat('api/v3/users/',dataset().userToken,'/allparts/')",
+				"type": "Expression"
+			}
 		},
 		"schema": []
 	}
