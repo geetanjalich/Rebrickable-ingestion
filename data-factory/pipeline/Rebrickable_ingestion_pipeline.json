@@ -261,7 +261,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "ForEach",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -274,7 +274,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup_api').output.value",
+						"value": "@activity('Lookup_usertoken_api').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -348,162 +348,19 @@
 				}
 			},
 			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
-						"additionalHeaders": {
-							"Authorization": {
-								"value": "@concat('key ',activity('getAPIkey').output.value)",
-								"type": "Expression"
-							}
-						},
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "RestResource_ds",
-						"type": "DatasetReference",
-						"parameters": {
-							"userToken": {
-								"value": "@activity('getUserToken').output.value",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "api_ds",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Lookup_usertoken_setnum_api",
-				"type": "Lookup",
+				"name": "Wait",
+				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "getUserToken",
+						"activity": "ForEach",
 						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "getAPIkey",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"dataset": {
-						"referenceName": "lookup_ut_sn_ds",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "ForEach2",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Lookup_usertoken_setnum_api",
-						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup_usertoken_setnum_api').output.value",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Copy data 2",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "RestSource",
-									"httpRequestTimeout": "00:01:40",
-									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "GET",
-									"paginationRules": {
-										"supportRFC5988": "true"
-									}
-								},
-								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "RestResource_ds",
-									"type": "DatasetReference"
-								}
-							]
-						}
-					]
+					"waitTimeInSeconds": 1
 				}
 			}
 		],
