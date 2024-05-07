@@ -328,6 +328,10 @@
 										"userToken": {
 											"value": "@activity('getUserToken').output",
 											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().filename",
+											"type": "Expression"
 										}
 									}
 								}
@@ -338,7 +342,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": {
-											"value": "@item().name",
+											"value": "@item().filename",
 											"type": "Expression"
 										}
 									}

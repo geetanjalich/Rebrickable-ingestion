@@ -8,13 +8,16 @@
 		"parameters": {
 			"userToken": {
 				"type": "String"
+			},
+			"filename": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "@concat('api/v3/users/',dataset().userToken,'/allparts/')",
+				"value": "@concat(dataset().userToken,'/',dataset().filename,'/')",
 				"type": "Expression"
 			}
 		},
