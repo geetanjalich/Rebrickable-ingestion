@@ -27,8 +27,6 @@
 			{
 				"name": "Lookup_file_names",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "extract_http_data_to_lookupfile",
@@ -67,8 +65,6 @@
 			{
 				"name": "ForEach_file_name",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup_file_names",
@@ -354,7 +350,15 @@
 					{
 						"activity": "ForEach",
 						"dependencyConditions": [
-							"Failed"
+							"Failed",
+							"Skipped"
+						]
+					},
+					{
+						"activity": "ForEach_file_name",
+						"dependencyConditions": [
+							"Failed",
+							"Skipped"
 						]
 					}
 				],
