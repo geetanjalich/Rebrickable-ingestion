@@ -1,5 +1,5 @@
 {
-	"name": "lookup_api_ds",
+	"name": "lookup_ut_sn_ds",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage_ls",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "usertoken_api_list",
+				"fileName": "usertoken_setnum_api_list",
 				"folderPath": "data/API",
 				"fileSystem": "landing"
 			},

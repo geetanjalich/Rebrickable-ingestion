@@ -11,13 +11,16 @@
 			},
 			"filename": {
 				"type": "String"
+			},
+			"setnum": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "@concat(dataset().userToken,'/',dataset().filename,'/')",
+				"value": "@concat(dataset().userToken,'/',dataset().filename,'/',dataset().setnum)",
 				"type": "Expression"
 			}
 		},
