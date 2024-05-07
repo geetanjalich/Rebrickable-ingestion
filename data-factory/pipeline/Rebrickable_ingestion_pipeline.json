@@ -302,9 +302,6 @@
 											"value": "@concat('key ',activity('getAPIkey').output)",
 											"type": "Expression"
 										}
-									},
-									"paginationRules": {
-										"supportRFC5988": "true"
 									}
 								},
 								"sink": {
