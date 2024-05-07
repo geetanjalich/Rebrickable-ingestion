@@ -65,8 +65,6 @@
 			{
 				"name": "getAPIkey",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -88,8 +86,6 @@
 			{
 				"name": "getUserToken",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -111,8 +107,6 @@
 			{
 				"name": "Lookup for api",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "getAPIkey",
@@ -159,14 +153,14 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Copy downloads data pipeline",
+						"activity": "ForEach file name",
 						"dependencyConditions": [
 							"Skipped",
 							"Failed"
 						]
 					},
 					{
-						"activity": "copy api data pipeline",
+						"activity": "ForEach api",
 						"dependencyConditions": [
 							"Failed",
 							"Skipped"
@@ -191,8 +185,8 @@
 				}
 			},
 			{
-				"name": "Copy downloads data pipeline",
-				"type": "ExecutePipeline",
+				"name": "ForEach file name",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "Lookup for download files",
@@ -201,21 +195,122 @@
 						]
 					}
 				],
-				"policy": {
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "files_copy_pipeline",
-						"type": "PipelineReference"
+					"items": {
+						"value": "@activity('Lookup for download files').output.value",
+						"type": "Expression"
 					},
-					"waitOnCompletion": true
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy_data_unzip",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Wait1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"copyBehavior": "FlattenHierarchy"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "http_ds",
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeUrl": {
+											"value": "@item().relative_url",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "adls_gen2_raw_ds",
+									"type": "DatasetReference",
+									"parameters": {
+										"file_name": {
+											"value": "@item().filename",
+											"type": "Expression"
+										},
+										"folder_name": {
+											"value": "@item().foldername",
+											"type": "Expression"
+										},
+										"month": {
+											"value": "@item().month",
+											"type": "Expression"
+										},
+										"year": {
+											"value": "@item().year",
+											"type": "Expression"
+										},
+										"day": {
+											"value": "@item().day",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
 				}
 			},
 			{
-				"name": "copy api data pipeline",
-				"type": "ExecutePipeline",
+				"name": "ForEach api",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "Lookup for api",
@@ -224,16 +319,96 @@
 						]
 					}
 				],
-				"policy": {
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "pipeline copy api data",
-						"type": "PipelineReference"
+					"items": {
+						"value": "@activity('Lookup for api').output.value",
+						"type": "Expression"
 					},
-					"waitOnCompletion": true
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data from api to adls gen2",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Wait2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"additionalHeaders": {
+										"Authorization": {
+											"value": "@concat('key ',activity('getAPIkey').output.value)",
+											"type": "Expression"
+										}
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "RestResource_ds",
+									"type": "DatasetReference",
+									"parameters": {
+										"userToken": {
+											"value": "@activity('getUserToken').output.value",
+											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().filename",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "api_json_ds",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": {
+											"value": "@item().filename",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Wait2",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
 				}
 			}
 		],
