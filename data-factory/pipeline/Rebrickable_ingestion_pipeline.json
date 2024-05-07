@@ -63,114 +63,6 @@
 				}
 			},
 			{
-				"name": "ForEach file name",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Lookup for download files",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup for download files').output.value",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Copy_data_unzip",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "HttpReadSettings",
-										"requestMethod": "GET"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings",
-										"copyBehavior": "FlattenHierarchy"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "http_ds",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeUrl": {
-											"value": "@item().relative_url",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "adls_gen2_raw_ds",
-									"type": "DatasetReference",
-									"parameters": {
-										"file_name": {
-											"value": "@item().filename",
-											"type": "Expression"
-										},
-										"folder_name": {
-											"value": "@item().foldername",
-											"type": "Expression"
-										},
-										"month": {
-											"value": "@item().month",
-											"type": "Expression"
-										},
-										"year": {
-											"value": "@item().year",
-											"type": "Expression"
-										},
-										"day": {
-											"value": "@item().day",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						}
-					]
-				}
-			},
-			{
 				"name": "getAPIkey",
 				"type": "WebActivity",
 				"state": "Inactive",
@@ -263,107 +155,18 @@
 				}
 			},
 			{
-				"name": "ForEach api",
-				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Failed",
-				"dependsOn": [
-					{
-						"activity": "Lookup for api",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup_usertoken_api').output.value",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Copy data from api to adls gen2",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "RestSource",
-									"httpRequestTimeout": "00:01:40",
-									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "GET",
-									"additionalHeaders": {
-										"Authorization": {
-											"value": "@concat('key ',activity('getAPIkey').output.value)",
-											"type": "Expression"
-										}
-									}
-								},
-								"sink": {
-									"type": "JsonSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "JsonWriteSettings"
-									}
-								},
-								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "RestResource_ds",
-									"type": "DatasetReference",
-									"parameters": {
-										"userToken": {
-											"value": "@activity('getUserToken').output.value",
-											"type": "Expression"
-										},
-										"filename": {
-											"value": "@item().filename",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "api_json_ds",
-									"type": "DatasetReference",
-									"parameters": {
-										"filename": {
-											"value": "@item().filename",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						}
-					]
-				}
-			},
-			{
 				"name": "alert on failure",
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "ForEach api",
+						"activity": "Copy downloads data pipeline",
 						"dependencyConditions": [
-							"Failed",
-							"Skipped"
+							"Skipped",
+							"Failed"
 						]
 					},
 					{
-						"activity": "ForEach file name",
+						"activity": "copy api data pipeline",
 						"dependencyConditions": [
 							"Failed",
 							"Skipped"
@@ -385,6 +188,52 @@
 						"value": "{\n    \"message\":\"This is custom dynamic message with pipeline run ID\" @{pipeline().RunId}\n    \"dataFactoryName\":@{pipeline().DataFactory},\n    \"pipelinename\":@{pipeline().Pipeline},\n    \"receiver\":@{pipeline().parameters.receiver}\n\n}",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Copy downloads data pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Lookup for download files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "files_copy_pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "copy api data pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Lookup for api",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline copy api data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],
