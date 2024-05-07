@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "extract_http_data_to_lookupfile",
+				"name": "extract http data to lookupfile",
 				"type": "DatabricksNotebook",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -25,11 +25,11 @@
 				}
 			},
 			{
-				"name": "Lookup_file_names",
+				"name": "Lookup for download files",
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "extract_http_data_to_lookupfile",
+						"activity": "extract http data to lookupfile",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -63,11 +63,11 @@
 				}
 			},
 			{
-				"name": "ForEach_file_name",
+				"name": "ForEach file name",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup_file_names",
+						"activity": "Lookup for download files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -76,7 +76,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup_file_names').output.value",
+						"value": "@activity('Lookup for download files').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -217,7 +217,7 @@
 				}
 			},
 			{
-				"name": "Lookup_usertoken_api",
+				"name": "Lookup for api",
 				"type": "Lookup",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -263,13 +263,13 @@
 				}
 			},
 			{
-				"name": "ForEach",
+				"name": "ForEach api",
 				"type": "ForEach",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
-						"activity": "Lookup_usertoken_api",
+						"activity": "Lookup for api",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -356,14 +356,14 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "ForEach",
+						"activity": "ForEach api",
 						"dependencyConditions": [
 							"Failed",
 							"Skipped"
 						]
 					},
 					{
-						"activity": "ForEach_file_name",
+						"activity": "ForEach file name",
 						"dependencyConditions": [
 							"Failed",
 							"Skipped"
