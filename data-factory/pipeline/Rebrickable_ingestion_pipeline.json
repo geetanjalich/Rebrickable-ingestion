@@ -173,6 +173,8 @@
 			{
 				"name": "getAPIkey",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -194,6 +196,8 @@
 			{
 				"name": "getUserToken",
 				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -215,6 +219,8 @@
 			{
 				"name": "Lookup_usertoken_api",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "getAPIkey",
@@ -259,6 +265,8 @@
 			{
 				"name": "ForEach",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
 				"dependsOn": [
 					{
 						"activity": "Lookup_usertoken_api",
