@@ -1,0 +1,28 @@
+{
+	"name": "api_json_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_ls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": "Rebrickable/USERS",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}

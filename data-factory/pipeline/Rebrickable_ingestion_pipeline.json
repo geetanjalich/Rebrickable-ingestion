@@ -299,20 +299,18 @@
 									"requestMethod": "GET",
 									"additionalHeaders": {
 										"Authorization": {
-											"value": "@concat('key ',activity('getAPIkey').output)",
+											"value": "@concat('key ',activity('getAPIkey').output.value)",
 											"type": "Expression"
 										}
 									}
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
+									"type": "JsonSink",
 									"storeSettings": {
 										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
+										"type": "JsonWriteSettings"
 									}
 								},
 								"enableStaging": false
@@ -323,7 +321,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"userToken": {
-											"value": "@activity('getUserToken').output",
+											"value": "@activity('getUserToken').output.value",
 											"type": "Expression"
 										},
 										"filename": {
@@ -335,7 +333,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "api_ds",
+									"referenceName": "api_json_ds",
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": {
