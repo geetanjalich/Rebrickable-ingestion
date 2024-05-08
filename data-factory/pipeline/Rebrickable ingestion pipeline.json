@@ -25,7 +25,8 @@
 					{
 						"activity": "alert on failure of ingestion from api_copy1",
 						"dependencyConditions": [
-							"Skipped"
+							"Skipped",
+							"Succeeded"
 						]
 					}
 				],
