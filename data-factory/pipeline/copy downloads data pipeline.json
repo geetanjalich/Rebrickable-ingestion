@@ -17,7 +17,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/geetanjalichipurupalli@outlook.com/extract_data.py"
+					"notebookPath": "/Users/geetanjalichipurupalli@outlook.com/extract_download_data"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks_http_downloads_ls",
@@ -221,6 +221,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"receiver": {
+				"type": "string",
+				"defaultValue": "geetanjalichipurapalli@gmail.com"
+			}
+		},
 		"annotations": []
 	}
 }
