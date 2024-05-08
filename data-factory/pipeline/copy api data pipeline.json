@@ -49,7 +49,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Python script to extract api from rebrickable ",
+						"activity": "Extract api data",
 						"dependencyConditions": [
 							"Succeeded",
 							"Skipped"
@@ -239,8 +239,8 @@
 				}
 			},
 			{
-				"name": "Python script to extract api from rebrickable",
-				"type": "DatabricksSparkPython",
+				"name": "Extract api data",
+				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
 						"activity": "Wait3",
@@ -258,12 +258,21 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/geetanjalichipurupalli@outlook.com/extract_api_data"
+				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks_http_downloads_ls",
 					"type": "LinkedServiceReference"
 				}
 			}
 		],
+		"parameters": {
+			"receiver": {
+				"type": "string",
+				"defaultValue": "geetanjalichipurapalli@gmail.com"
+			}
+		},
 		"annotations": []
 	}
 }
