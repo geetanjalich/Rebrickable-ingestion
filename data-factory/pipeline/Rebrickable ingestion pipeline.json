@@ -101,7 +101,8 @@
 		],
 		"parameters": {
 			"receiver": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "geetanjalichipurapalli@gmail.com"
 			}
 		},
 		"annotations": [],
