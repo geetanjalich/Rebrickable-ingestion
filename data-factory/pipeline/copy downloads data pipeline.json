@@ -184,35 +184,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "alert on failure of ingestion from download",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "ForEach file name",
-						"dependencyConditions": [
-							"Failed",
-							"Skipped"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "POST",
-					"url": "https://prod2-21.eastasia.logic.azure.com:443/workflows/5ff4db273c2b4d7599b9d9a26559516f/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=APCDMvGykHtgbAsGs1UIQO1TvGsnvOa-GZTe56w79V4",
-					"body": {
-						"value": "{\n    \"message\":\"This is custom dynamic message with pipeline run ID @{pipeline().RunId}\",\n    \"dataFactoryName\":\"@{pipeline().DataFactory}\",\n    \"pipelineName\":\"@{pipeline().Pipeline}\",\n    \"receiver\":\"@{pipeline().parameters.receiver}\"\n\n}",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"parameters": {
