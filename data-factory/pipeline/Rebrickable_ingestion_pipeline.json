@@ -111,15 +111,10 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "getAPIkey",
+						"activity": "Wait3",
 						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "getUserToken",
-						"dependencyConditions": [
-							"Succeeded"
+							"Succeeded",
+							"Skipped"
 						]
 					}
 				],
@@ -437,6 +432,28 @@
 						"value": "{\n    \"message\":\"This is custom dynamic message with pipeline run ID @{pipeline().RunId}\",\n    \"dataFactoryName\":\"@{pipeline().DataFactory}\",\n    \"pipelineName\":\"@{pipeline().Pipeline}\",\n    \"receiver\":\"@{pipeline().parameters.receiver}\"\n\n}",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Wait3",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "getAPIkey",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "getUserToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 3
 				}
 			}
 		],
