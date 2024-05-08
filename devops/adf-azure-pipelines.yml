@@ -28,9 +28,9 @@ stages:
       dataFactoryName: RebrickableAdfDev
       serviceConnectionName: cicd dev
       overrideParameters: >
-        -AzureDatabricks_http_downloads_ls_properties_typeProperties_existingClusterId 0504-151410-ndftb9nn
-        -AzureDataLakeStorage_ls_properties_typeProperties_url AzureDataLakeStorage_ls_properties_typeProperties_url
-        -AzureKeyVault_ls_properties_typeProperties_baseUrl https://rebrickablekvdev.vault.azure.net/
-        -HttpServer_ls_properties_typeProperties_url HttpServer_ls_properties_typeProperties_url
-        -HttpServer_ls_properties_typeProperties_userName geetanjali
-        -RestService_ls_properties_typeProperties_url https://rebrickable.com/api/v3/users/
+        -AzureDatabricks_http_downloads_ls_properties_typeProperties_existingClusterId $(AzureDatabricks_http_downloads_ls_properties_typeProperties_existingClusterId)
+        -AzureDataLakeStorage_ls_properties_typeProperties_url $(AzureDataLakeStorage_ls_properties_typeProperties_url)
+        -AzureKeyVault_ls_properties_typeProperties_baseUrl $(AzureKeyVault_ls_properties_typeProperties_baseUrl)
+        -HttpServer_ls_properties_typeProperties_url $(HttpServer_ls_properties_typeProperties_url)
+        -HttpServer_ls_properties_typeProperties_userName $(HttpServer_ls_properties_typeProperties_userName)
+        -RestService_ls_properties_typeProperties_url $(RestService_ls_properties_typeProperties_url)
