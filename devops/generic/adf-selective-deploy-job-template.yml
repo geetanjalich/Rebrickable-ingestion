@@ -1,0 +1,59 @@
+parameters:
+- name: environmentName 
+  type: string 
+
+- name: rootFolder 
+  type: string 
+
+- name: dataFactoryName 
+  type: string 
+
+- name: location 
+  type: string
+
+- name: resourceGroupName 
+  type: string
+
+- name: configPath 
+  type: string
+
+- name: serviceConnectionName 
+  type: string 
+
+- name: deploymentScriptPath 
+  type: string 
+
+jobs:
+- deployment: ${{ parameters.environmentName }}
+  displayName: Deployment to ${{ parameters.environmentName }}
+  environment: '${{ parameters.environmentName }}'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self 
+
+        - powershell: |
+            Install-Module Az.DataFactory -MinimumVersion "1.10.0" -Force
+            Install-Module -Name "azure.datafactory.tools" -Force
+            Import-Module -Name "azure.datafactory.tools" -Force
+            Get-Module -Name azure.datafactory.tools
+            Get-Module -Name Az.DataFactory
+          displayName: 'Install and import PowerShell modules'
+
+        - powershell: |
+            Test-AdfCode -RootFolder "${{ parameters.rootFolder }}"
+          displayName: 'Test Azure Data Factory code'
+        
+        - task: AzurePowerShell@5
+          displayName: 'Deploy Azure Data Factory'
+          inputs:
+            azureSubscription: '${{ parameters.serviceConnectionName }}'
+            ScriptPath: '${{ parameters.deploymentScriptPath }}'
+            ScriptArguments: "-rootFolder ${{ parameters.rootFolder }} \
+              -dataFactoryName ${{ parameters.dataFactoryName }} \
+              -resourceGroupName ${{ parameters.resourceGroupName }} \
+              -location '${{ parameters.location }}' \
+              -configPath ${{ parameters.configPath }}"        
+            FailOnStandardError: true
+            azurePowerShellVersion: LatestVersion
