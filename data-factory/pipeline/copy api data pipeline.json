@@ -51,8 +51,7 @@
 					{
 						"activity": "Extract api data",
 						"dependencyConditions": [
-							"Succeeded",
-							"Skipped"
+							"Succeeded"
 						]
 					}
 				],
@@ -90,8 +89,7 @@
 					{
 						"activity": "Lookup for api",
 						"dependencyConditions": [
-							"Succeeded",
-							"Skipped"
+							"Succeeded"
 						]
 					}
 				],
@@ -216,8 +214,7 @@
 					{
 						"activity": "Wait3",
 						"dependencyConditions": [
-							"Succeeded",
-							"Skipped"
+							"Succeeded"
 						]
 					}
 				],
