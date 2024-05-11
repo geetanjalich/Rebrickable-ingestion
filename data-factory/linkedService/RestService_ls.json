@@ -1,0 +1,12 @@
+{
+	"name": "RestService_ls",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://rebrickable.com/api/v3/users/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
