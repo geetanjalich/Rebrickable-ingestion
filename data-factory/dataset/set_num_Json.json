@@ -1,0 +1,79 @@
+{
+	"name": "set_num_Json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "sets",
+				"folderPath": "Rebrickable/USERS",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"count": {
+					"type": "integer"
+				},
+				"next": {
+					"type": "null"
+				},
+				"previous": {
+					"type": "null"
+				},
+				"results": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"list_id": {
+								"type": "integer"
+							},
+							"quantity": {
+								"type": "integer"
+							},
+							"include_spares": {
+								"type": "boolean"
+							},
+							"set": {
+								"type": "object",
+								"properties": {
+									"set_num": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"year": {
+										"type": "integer"
+									},
+									"theme_id": {
+										"type": "integer"
+									},
+									"num_parts": {
+										"type": "integer"
+									},
+									"set_img_url": {
+										"type": "string"
+									},
+									"set_url": {
+										"type": "string"
+									},
+									"last_modified_dt": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

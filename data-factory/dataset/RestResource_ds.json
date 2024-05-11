@@ -1,0 +1,26 @@
+{
+	"name": "RestResource_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService_ls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"userToken": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@concat(dataset().userToken,'/',dataset().filename,'/')",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}
