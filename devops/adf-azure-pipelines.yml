@@ -1,5 +1,5 @@
 trigger:
-- main
+- feature/feature_restapi branch
 
 pool:
   vmImage: ubuntu-latest
