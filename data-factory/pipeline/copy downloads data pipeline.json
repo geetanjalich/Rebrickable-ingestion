@@ -18,7 +18,7 @@
 					"notebookPath": "/Users/geetanjalichipurupalli@outlook.com/extract_download_data"
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureDatabricks_http_downloads_ls",
+					"referenceName": "AzureDatabricks_ls",
 					"type": "LinkedServiceReference"
 				}
 			},
@@ -54,7 +54,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "lookup_file_names_ds",
+						"referenceName": "lookup_download_files",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -112,8 +112,7 @@
 								"sink": {
 									"type": "DelimitedTextSink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings",
-										"copyBehavior": "FlattenHierarchy"
+										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -145,27 +144,27 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "adls_gen2_raw_ds",
+									"referenceName": "http_adlsgen2_ds",
 									"type": "DatasetReference",
 									"parameters": {
-										"file_name": {
-											"value": "@item().filename",
-											"type": "Expression"
-										},
-										"folder_name": {
+										"foldername": {
 											"value": "@item().foldername",
-											"type": "Expression"
-										},
-										"month": {
-											"value": "@item().month",
 											"type": "Expression"
 										},
 										"year": {
 											"value": "@item().year",
 											"type": "Expression"
 										},
+										"month": {
+											"value": "@item().month",
+											"type": "Expression"
+										},
 										"day": {
 											"value": "@item().day",
+											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().filename",
 											"type": "Expression"
 										}
 									}

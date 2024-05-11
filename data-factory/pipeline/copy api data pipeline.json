@@ -230,7 +230,7 @@
 					"notebookPath": "/Users/geetanjalichipurupalli@outlook.com/extract_api_data"
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureDatabricks_http_downloads_ls",
+					"referenceName": "AzureDatabricks_ls",
 					"type": "LinkedServiceReference"
 				}
 			}
