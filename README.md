@@ -114,3 +114,15 @@ Making sure the solution is configurable using ADF and to prepare the ingestion 
      - **Lookup Activity:** Extracts all the data from the lookup file.
      - **For Each Activity:** Iterates over the lookup data sequentially and copies the data to ADLS Gen2 raw container.
      - **Copy Activity:** Utilizes the Copy Data Activity to unzip the downloaded file. Configures the activity with a dataset representing CSV data with compression level set to Zip Deflate (.zip), pointing to the ZIP directory within the Data Lake container.
+
+5) **Integration with Git Repo with following best CI/CD practices in Azure DevOps:**
+	![git configuration](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/9703431c-844a-46ec-8c86-c048a5d85ab4)
+		
+	I created a project in Azure DevOps by following some tips and tricks to run CI/CD pipelines using ARM based approach. 
+	The below image shows the files in Azure DevOps along with devops folder. 
+	
+	![Azure DevOps](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/f6465dfb-28b0-4e26-8146-3987ee9c580f)
+
+	After running the pipeline the following stages were executed :
+		![azure Devops 2](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/79c7cca9-9f2a-4c56-aeb4-1e9c9e20905a)
+
