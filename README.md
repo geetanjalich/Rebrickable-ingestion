@@ -58,7 +58,7 @@ I have created resource group under my pay-as-you-go subscription containing
 - Databricks workspace
 - Azure Key vault
 
-![[resources in dev rg.png]]
+obsidian://open?vault=Geetanjali&file=resources%20in%20dev%20rg.png
 # Description of the process 
 
 1) **Create a Data Lake Storage in Locally-Redundant Storage (LRS) as Data Lake Storage Gen 2, utilizing a hierarchical namespace.**
