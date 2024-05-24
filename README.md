@@ -1,4 +1,5 @@
-# Introduction 
+# Overview 
+The goal of this project is to apply data engineering (DE) concepts to orchestrate scraping and upload of Rebrickable(https://rebrickable.com/) data to Azure Data lake storage by making sure the solution is configurable. 
 I’ve been learning about how data moves around, and I started using Azure Data Factory, which is a cool tool for handling data. This project is aimed at demonstrating and consolidating my knowledge of ADF using best practices.
 
 # Dataset
