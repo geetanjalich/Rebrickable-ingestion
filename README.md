@@ -3,7 +3,6 @@ The goal of this project is to apply data engineering (DE) concepts to orchestra
 I’ve been learning about how data moves around, and I started using Azure Data Factory, which is a cool tool for handling data. This project is aimed at demonstrating and consolidating my knowledge of ADF using best practices.
 
 # Dataset
-So, I found a website called [Rebrickable](https://rebrickable.com/).
 
 **Type of Data Source:** It exposes two types of endpoints: a download page which exposes official Lego data (not all data is available on the downloads page), and a RestAPI where customer information about the Lego sets added to the Rebrickable website is available.
 
