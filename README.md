@@ -5,12 +5,12 @@ I’ve been learning about how data moves around, and I started using Azure Data
 # Technologies used
 The project leverages the following technologies:
 
-Data Lake: Azure Data Lake
-Secrets Store: Azure Key Vault
-Error Handling: Logic Apps
-Orchestration: Azure Data Factory
-Authorisation: Managed Identity
-CICD: Azure DevOps
+Data Lake: Azure Data Lake.
+Secrets Store: Azure Key Vault.
+Error Handling: Logic Apps.
+Orchestration: Azure Data Factory.
+Authorisation: Managed Identity.
+CICD: Azure DevOps.
 
 
 # Architecture Diagram
