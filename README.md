@@ -2,6 +2,21 @@
 The goal of this project is to apply data engineering (DE) concepts to orchestrate scraping and upload of Rebrickable(https://rebrickable.com/) data to Azure Data lake storage by making sure the solution is configurable. 
 I’ve been learning about how data moves around, and I started using Azure Data Factory, which is a cool tool for handling data. This project is aimed at demonstrating and consolidating my knowledge of ADF using best practices.
 
+# Technologies used
+The project leverages the following technologies:
+
+Data Lake: Azure Data Lake
+Secrets Store: Azure Key Vault
+Error Handling: Logic Apps
+Orchestration: Azure Data Factory
+Authorisation: Managed Identity
+CICD: Azure DevOps
+
+
+# Architecture Diagram
+Refer to the following diagram for a visual representation of how these technologies interconnect to form the project's backbone.
+![image](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/1f6db5d5-156b-4eef-afb0-4f3fffbd382c)
+
 # Dataset
 
 **Type of Data Source:** It exposes two types of endpoints: a download page which exposes official Lego data (not all data is available on the downloads page), and a RestAPI where customer information about the Lego sets added to the Rebrickable website is available.
@@ -25,22 +40,6 @@ I’ve been learning about how data moves around, and I started using Azure Data
 **Sync or Async:** The data is returned synchronously.
 
 **Incremental Load or Full Load:** The count of data is 14k which is pretty small. So it is always full load. The API does not allow getting data incrementally.
-
-# Technologies used
-The project leverages the following technologies:
-
-Data Lake: Azure Data Lake
-Secrets Store: Azure Key Vault
-Error Handling: Logic Apps
-Orchestration: Azure Data Factory
-Authorisation: Managed Identity
-CICD: Azure DevOps
-
-
-# Architecture Diagram
-Refer to the following diagram for a visual representation of how these technologies interconnect to form the project's backbone.
-![image](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/1f6db5d5-156b-4eef-afb0-4f3fffbd382c)
-
 
 # Challenge
 Making sure the solution is configurable using ADF and to prepare the ingestion architecture with best practices.
