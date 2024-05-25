@@ -15,7 +15,7 @@ The project leverages the following technologies:
 
 # Architecture Diagram
 Refer to the following diagram for a visual representation of how these technologies interconnect to form the project's backbone.
-![image](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/a9f6167e-bf3d-4fc0-8db9-44456d519842)
+![image](https://github.com/geetanjalich/Rebrickable-ingestion/assets/79563879/f5e9c2ac-a540-433f-9176-4700bd6f1cf5)
 
 # Dataset
 
